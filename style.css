@@ -10,6 +10,10 @@
     direction: rtl;
 }
 
+body {
+    padding-top: 0;
+}
+
 nav a{
     text-decoration: none;
     color: rgb(37, 76, 160);

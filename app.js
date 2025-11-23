@@ -1,7 +1,7 @@
 /**
- * Improved mobile navigation handling
- * - Toggles classes and ARIA attributes
- * - Keeps page content from being hidden under the fixed header and the open menu
+ * Mobile navigation menu toggle functionality
+ * - Toggles classes and ARIA attributes for accessibility
+ * - Closes menu on link click, outside click, or Escape key
  */
 
 const menuToggle = document.querySelector('.menu-toggle');
@@ -12,21 +12,18 @@ function setAriaExpanded(value){
     if(menuToggle) menuToggle.setAttribute('aria-expanded', String(value));
 }
 
-function openMenu(){
-    if(!menuToggle || !navigation) return;
-    menuToggle.classList.add('active');
-    navigation.classList.add('active');
-    setAriaExpanded(true);
-    // allow layout to settle then update padding
-    setTimeout(updateBodyTopPadding, 120);
-}
-
 function closeMenu(){
     if(!menuToggle || !navigation) return;
     menuToggle.classList.remove('active');
     navigation.classList.remove('active');
     setAriaExpanded(false);
-    setTimeout(updateBodyTopPadding, 120);
+}
+
+function openMenu(){
+    if(!menuToggle || !navigation) return;
+    menuToggle.classList.add('active');
+    navigation.classList.add('active');
+    setAriaExpanded(true);
 }
 
 function toggleMenu(){
@@ -34,7 +31,7 @@ function toggleMenu(){
     if(navigation.classList.contains('active')) closeMenu(); else openMenu();
 }
 
-// Close when clicking outside
+// Close when clicking outside the navigation/toggle
 function handleOutsideClick(e){
     if(!navigation || !menuToggle) return;
     const isOpen = navigation.classList.contains('active');
@@ -43,43 +40,25 @@ function handleOutsideClick(e){
     closeMenu();
 }
 
-// Update body top padding to include header and opened nav height (so content not hidden)
-function updateBodyTopPadding(){
-    const header = document.querySelector('header');
-    if(!header) return;
-    const headerH = header.getBoundingClientRect().height || 0;
-    let extra = 0;
-    if(navigation && navigation.classList.contains('active')){
-        // navigation is positioned absolute; include its visible height so content sits below it
-        extra = navigation.getBoundingClientRect().height || 0;
-    }
-    document.body.style.paddingTop = (headerH + extra) + 'px';
-}
-
 // Event binding
 if(menuToggle){
     menuToggle.addEventListener('click', toggleMenu);
-    // ensure proper ARIA defaults
     if(!menuToggle.hasAttribute('aria-expanded')) setAriaExpanded(false);
 }
 
+// Close menu when a link is clicked
 navLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+// Close menu when clicking outside
 document.addEventListener('click', handleOutsideClick);
+
+// Close menu on Escape key
 document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
 
-function onPageLoad(){
-    // Reset menu state on page load
-    closeMenu();
-    // Delay padding update to ensure layout is complete
-    setTimeout(updateBodyTopPadding, 100);
-}
-
-window.addEventListener('load', onPageLoad);
-window.addEventListener('resize', updateBodyTopPadding);
-
-// Also update on DOM ready (for faster response)
+// Reset menu state on page load
+window.addEventListener('load', closeMenu);
 if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', onPageLoad);
+    document.addEventListener('DOMContentLoaded', closeMenu);
 } else {
-    onPageLoad();
+    closeMenu();
 }
