@@ -59,3 +59,30 @@ document.addEventListener('keydown', (event) => {
         closeMenuOnLinkClick();
     }
 });
+
+/**
+ * Ensure page content is not hidden under fixed header.
+ * Sets `body` padding-top to the header height and updates on resize/menu toggle.
+ */
+function updateBodyTopPadding(){
+    const header = document.querySelector('header');
+    if(!header) return;
+    const h = header.getBoundingClientRect().height;
+    document.body.style.paddingTop = h + 'px';
+}
+
+// Update on load and resize
+window.addEventListener('load', updateBodyTopPadding);
+window.addEventListener('resize', updateBodyTopPadding);
+
+// Also update when toggling the mobile menu (height may change)
+if (menuToggle) {
+    const originalToggle = toggleMobileMenu;
+    function wrappedToggle(){
+        originalToggle();
+        // defer to allow layout to settle
+        setTimeout(updateBodyTopPadding, 120);
+    }
+    menuToggle.removeEventListener('click', toggleMobileMenu);
+    menuToggle.addEventListener('click', wrappedToggle);
+}
