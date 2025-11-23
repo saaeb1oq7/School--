@@ -466,7 +466,7 @@ section {
     .navigation.active{
         display: flex;
         position: absolute;
-        top: 70px;
+        top: 100%;
         left: 0;
         right: 0;
         background: #e0e0e0;
