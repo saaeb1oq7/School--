@@ -1,88 +1,71 @@
 /**
- * Mobile Navigation Menu Toggle Functionality
- * Handles hamburger menu interactions for responsive design
+ * Improved mobile navigation handling
+ * - Toggles classes and ARIA attributes
+ * - Keeps page content from being hidden under the fixed header and the open menu
  */
 
-// Get references to the menu toggle button and navigation menu
 const menuToggle = document.querySelector('.menu-toggle');
-const navigation = document.querySelector('.navigation');
+const navigation = document.querySelector('#main-nav') || document.querySelector('.navigation');
 const navLinks = document.querySelectorAll('.navigation a');
 
-/**
- * Toggle the mobile menu visibility and hamburger icon animation
- * Adds/removes 'active' class to both menu toggle and navigation elements
- */
-function toggleMobileMenu() {
-    menuToggle.classList.toggle('active');
-    navigation.classList.toggle('active');
+function setAriaExpanded(value){
+    if(menuToggle) menuToggle.setAttribute('aria-expanded', String(value));
 }
 
-/**
- * Close the mobile menu when a navigation link is clicked
- * Improves user experience by automatically closing menu after selection
- */
-function closeMenuOnLinkClick() {
+function openMenu(){
+    if(!menuToggle || !navigation) return;
+    menuToggle.classList.add('active');
+    navigation.classList.add('active');
+    setAriaExpanded(true);
+    // allow layout to settle then update padding
+    setTimeout(updateBodyTopPadding, 120);
+}
+
+function closeMenu(){
+    if(!menuToggle || !navigation) return;
     menuToggle.classList.remove('active');
     navigation.classList.remove('active');
+    setAriaExpanded(false);
+    setTimeout(updateBodyTopPadding, 120);
 }
 
-/**
- * Close menu when clicking outside the navigation area
- * Provides better UX by closing menu on document clicks outside navigation/toggle
- */
-function handleOutsideClick(event) {
-    const isMenuOpen = navigation.classList.contains('active');
-    const isClickOnMenu = navigation.contains(event.target);
-    const isClickOnToggle = menuToggle.contains(event.target);
-
-    if (isMenuOpen && !isClickOnMenu && !isClickOnToggle) {
-        closeMenuOnLinkClick();
-    }
+function toggleMenu(){
+    if(!menuToggle || !navigation) return;
+    if(navigation.classList.contains('active')) closeMenu(); else openMenu();
 }
 
-// Add event listener for hamburger menu button click
-if (menuToggle) {
-    menuToggle.addEventListener('click', toggleMobileMenu);
+// Close when clicking outside
+function handleOutsideClick(e){
+    if(!navigation || !menuToggle) return;
+    const isOpen = navigation.classList.contains('active');
+    if(!isOpen) return;
+    if(navigation.contains(e.target) || menuToggle.contains(e.target)) return;
+    closeMenu();
 }
 
-// Add event listeners to close menu when navigation links are clicked
-navLinks.forEach(link => {
-    link.addEventListener('click', closeMenuOnLinkClick);
-});
-
-// Add event listener to close menu when clicking outside
-document.addEventListener('click', handleOutsideClick);
-
-// Close menu on Escape key press for better accessibility
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && navigation.classList.contains('active')) {
-        closeMenuOnLinkClick();
-    }
-});
-
-/**
- * Ensure page content is not hidden under fixed header.
- * Sets `body` padding-top to the header height and updates on resize/menu toggle.
- */
+// Update body top padding to include header and opened nav height (so content not hidden)
 function updateBodyTopPadding(){
     const header = document.querySelector('header');
     if(!header) return;
-    const h = header.getBoundingClientRect().height;
-    document.body.style.paddingTop = h + 'px';
+    const headerH = header.getBoundingClientRect().height || 0;
+    let extra = 0;
+    if(navigation && navigation.classList.contains('active')){
+        // navigation is positioned absolute; include its visible height so content sits below it
+        extra = navigation.getBoundingClientRect().height || 0;
+    }
+    document.body.style.paddingTop = (headerH + extra) + 'px';
 }
 
-// Update on load and resize
+// Event binding
+if(menuToggle){
+    menuToggle.addEventListener('click', toggleMenu);
+    // ensure proper ARIA defaults
+    if(!menuToggle.hasAttribute('aria-expanded')) setAriaExpanded(false);
+}
+
+navLinks.forEach(link => link.addEventListener('click', closeMenu));
+document.addEventListener('click', handleOutsideClick);
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
+
 window.addEventListener('load', updateBodyTopPadding);
 window.addEventListener('resize', updateBodyTopPadding);
-
-// Also update when toggling the mobile menu (height may change)
-if (menuToggle) {
-    const originalToggle = toggleMobileMenu;
-    function wrappedToggle(){
-        originalToggle();
-        // defer to allow layout to settle
-        setTimeout(updateBodyTopPadding, 120);
-    }
-    menuToggle.removeEventListener('click', toggleMobileMenu);
-    menuToggle.addEventListener('click', wrappedToggle);
-}

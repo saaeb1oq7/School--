@@ -37,7 +37,7 @@ header{
     background-color: #e0e0e0;
     width: 100%;
     position: fixed;
-    z-index: 999;
+    z-index: 1000;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -106,7 +106,7 @@ header{
     background-color: #e0e0e0;
     width: 100%;
     padding: 20px 0;
-    z-index: 998;
+    z-index: 1001;
 }
 .navigation a{
     text-decoration: none;
