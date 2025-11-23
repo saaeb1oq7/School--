@@ -67,5 +67,19 @@ navLinks.forEach(link => link.addEventListener('click', closeMenu));
 document.addEventListener('click', handleOutsideClick);
 document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
 
-window.addEventListener('load', updateBodyTopPadding);
+function onPageLoad(){
+    // Reset menu state on page load
+    closeMenu();
+    // Delay padding update to ensure layout is complete
+    setTimeout(updateBodyTopPadding, 100);
+}
+
+window.addEventListener('load', onPageLoad);
 window.addEventListener('resize', updateBodyTopPadding);
+
+// Also update on DOM ready (for faster response)
+if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', onPageLoad);
+} else {
+    onPageLoad();
+}
