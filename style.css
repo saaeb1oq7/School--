@@ -41,9 +41,9 @@ header{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    word-spacing: 15px;
+    word-spacing: 12px;
     align-items: center;
-    padding: clamp(10px, 2%, 20px) clamp(20px, 5%, 80px);
+    padding: clamp(8px, 1.5%, 14px) clamp(16px, 4%, 60px);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.15), 0 8px 16px rgba(0,0,0,0.1);
 }
 
@@ -54,7 +54,7 @@ header{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 20px;
+    gap: 8px;
     line-height: 1;
 }
 .logo:hover{
