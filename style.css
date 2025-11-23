@@ -302,6 +302,13 @@ section {
     color: rgba(0,0,0,0.85);
 }
 
+.aboutme{
+    background-color: rgb(0,0,0);
+    color: whitesmoke;
+    background-size: cover;
+    padding: clamp(60px, 8%, 100px) clamp(20px, 5%, 80px);
+}
+
 .aboutme h2{
     text-align: center;
     color: #fff;
