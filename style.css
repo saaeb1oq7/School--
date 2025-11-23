@@ -40,6 +40,7 @@ header{
     z-index: 999;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     word-spacing: 15px;
     align-items: center;
     padding: clamp(10px, 2%, 20px) clamp(20px, 5%, 80px);
@@ -49,9 +50,12 @@ header{
 .logo{
     text-decoration: none;
     color: black;
-    text-transform: uppercase;
     font-weight: 700;
-    font-size: 1.8em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+    line-height: 1;
 }
 .logo:hover{
     color: rgb(20, 78, 187);
@@ -226,11 +230,11 @@ section {
     border-radius: 10px;
     padding: 25px;
     margin: 15px;
-    transition: 0.7s ease;
+    transition: 0.5s ease;
 }
 
 .card:hover{
-    transform: scale(1.03);
+    transform: scale(1.05);
 }
 
 .icon {
@@ -239,10 +243,29 @@ section {
     text-align: center;
     font-weight: 700;
 }
+.icon .img{
+    width: 100%;
+    height: auto;
+}
 
+/* Ensure img elements inside .icon scale, center and don't overflow their card */
+.icon img{
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    transition: filter 0.25s ease, opacity 0.25s ease;
+}
+
+/* Darken image slightly on hover */
+.icon img:hover{
+    filter: brightness(0.85);
+}
 #contact .icon{
     font-size: clamp(4em, 8vw, 6.5em);
     color: rgb(28, 139, 230);
+    size-adjust: center;
+    margin-bottom: 20px;
 }
 
 #contact p{
@@ -268,14 +291,15 @@ section {
     text-align: center;
 }
 
-.aboutme {
-    background-color: rgb(0, 0, 0);
-    border: black;
-    border-width: 10px;
-    background-size: cover;
-    min-height: 3vh;
-    width: 100%;
-    color: whitesmoke;
+/* Logo sub-lines: Arabic (primary) and English (secondary) */
+.logo-ar{
+    font-size: 1.8em;
+}
+.logo-en{
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(0,0,0,0.85);
 }
 
 .aboutme h2{
@@ -382,6 +406,20 @@ section {
         padding: 12px 20px;
     }
 
+    /* Center logo and slightly reduce sizes on tablet */
+    .logo{
+        align-items: center;
+        text-align: center;
+    }
+
+    .logo-ar{
+        font-size: 1.6em;
+    }
+
+    .logo-en{
+        font-size: 0.85em;
+    }
+
     .navigation a{
         padding-left: 10px;
     }
@@ -462,6 +500,19 @@ section {
 @media (max-width: 480px) {
     header{
         padding: 10px 15px;
+    }
+
+    /* Mobile: smaller logo text and center alignment */
+    .logo-ar{
+        font-size: 1.2em;
+    }
+
+    .logo-en{
+        font-size: 0.7em;
+    }
+
+    .logo{
+        align-items: center;
     }
 
     section{
