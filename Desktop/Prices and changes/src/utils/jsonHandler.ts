@@ -105,11 +105,11 @@ export async function importFromJSON(file: File): Promise<ImportResult> {
 }
 
 export function exportVisasOnly(visas: Visa[]): void {
-  const data = { visas, flightPackages: [] };
+  const data = { visas, flightPackages: [], airlines: [] };
   exportToJSON(data, 'visas.json');
 }
 
 export function exportFlightsOnly(flightPackages: FlightPackage[]): void {
-  const data = { visas: [], flightPackages };
+  const data = { visas: [], flightPackages, airlines: [] };
   exportToJSON(data, 'flights.json');
 }

@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env.local
+.env.*.local
+*.log
+.DS_Store
+.vite/
+coverage/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+.vscode/
+__pycache__/
+*.pyc
