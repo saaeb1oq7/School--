@@ -1,0 +1,43 @@
+.input {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.65rem 1rem 0.65rem 2.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>');
+  background-repeat: no-repeat;
+  background-position: 0.75rem center;
+  background-size: 16px;
+  color: #1a1a2e;
+  position: relative;
+}
+
+.input::placeholder {
+  color: #999;
+  font-weight: 500;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+  max-width: 350px;
+  background-color: #fcfcfd;
+}
+
+.input:hover {
+  border-color: #d0d0d0;
+}
+
+@media (max-width: 768px) {
+  .input {
+    max-width: 100%;
+  }
+
+  .input:focus {
+    max-width: 100%;
+  }
+}

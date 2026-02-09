@@ -1,0 +1,16 @@
+.container { width: 100%; animation: fadeIn 0.4s ease-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.5rem; background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); border: 1px solid rgba(0, 0, 0, 0.05); }
+.header h2 { margin: 0; color: #1a1a2e; font-size: 1.5rem; }
+.header select { padding: 0.65rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px; background: white; color: #1a1a2e; font-weight: 500; transition: all 0.2s ease; cursor: pointer; }
+.header select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15); }
+.header select:hover { border-color: #d0d0d0; }
+.header button { padding: 0.65rem 1rem; border: 2px solid #667eea; background: white; color: #667eea; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; }
+.header button:hover { background: #667eea; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3); }
+.header button:active { transform: translateY(0); }
+@media (max-width: 768px) { .header { flex-direction: column; align-items: flex-start; gap: 1rem; } .header > div { width: 100%; display: flex; gap: 0.5rem; flex-wrap: wrap; } }
+
+.container { width: 100%; }
+.header { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1rem; }
+.header h2 { margin:0; }
+@media (max-width:768px){ .header { flex-direction:column; align-items:flex-start; } }
